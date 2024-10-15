@@ -14,7 +14,16 @@ app.get('/', (req, res) => {
 });
 
 io.on('connection', (socket) => {
-	console.log(socket.id);
+	// console.log('Client/s connected:', io.engine.clientsCount);
+	// console.log('Socket ID:', socket.id);
+	// socket.on('disconnect', () => {
+	// 	console.log('Socket disconnected:', socket.id);
+	// });
+	socket.conn.once('upgrade', () => {
+		console.log(`From HTTP Long-Pulling to ${socket.conn.transport.name}`);
+	});
 });
 
-server.listen(3000);
+server.listen(3000, () => {
+	console.log('Server is running on http://localhost:3000');
+});
