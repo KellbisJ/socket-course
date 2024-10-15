@@ -14,14 +14,14 @@ app.get('/', (req, res) => {
 });
 
 io.on('connection', (socket) => {
-	// console.log('Client/s connected:', io.engine.clientsCount);
-	// console.log('Socket ID:', socket.id);
-	// socket.on('disconnect', () => {
-	// 	console.log('Socket disconnected:', socket.id);
-	// });
-	socket.conn.once('upgrade', () => {
-		console.log(`From HTTP Long-Pulling to ${socket.conn.transport.name}`);
+	// Basic emition and listening
+	socket.emit('connection', 'You are connected 😎');
+	socket.on('message', (data) => {
+		console.log(data);
 	});
+
+	// Emition to all servers
+	io.emit('everyone', `${socket.id} has been connected`);
 });
 
 server.listen(3000, () => {
