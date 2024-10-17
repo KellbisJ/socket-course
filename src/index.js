@@ -13,35 +13,14 @@ app.get('/', (req, res) => {
 	res.sendFile(__dirname + '/views/index.html');
 });
 
-io.on('connection', (socket) => {
-	socket.connectedRoom = '';
-	socket.on('joinRoom', (room) => {
-		socket.leave(socket.connectedRoom);
-		switch (room) {
-			case 'room1':
-				socket.join('room1');
-				socket.connectedRoom = 'room1';
-				break;
-			case 'room2':
-				socket.join('room2');
-				socket.connectedRoom = 'room2';
-				break;
-			case 'room3':
-				socket.join('room3');
-				socket.connectedRoom = 'room3';
-				break;
+const teachers = io.of('teachers');
+const students = io.of('students');
 
-			default:
-				break;
-		}
-	});
-	socket.on('message', (message) => {
-		const room = socket.connectedRoom;
-		io.to(room).emit('send message', {
-			message,
-			room,
-		});
-	});
+teachers.on('connection', (socket) => {
+	console.log(`${socket.id} se ha conectado a la sala de teachers`);
+});
+students.on('connection', (socket) => {
+	console.log(`${socket.id} se ha conectado a la sala de students`);
 });
 
 server.listen(3000, () => {

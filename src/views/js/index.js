@@ -1,37 +1,19 @@
-const socket = io();
+const user = prompt('Type your user');
+const teachers = ['RetaxMaster', 'JuanDC', 'GNDX'];
 
-// Room connection buttons
-const connectRoom1 = document.querySelector('#connectRoom1');
-const connectRoom2 = document.querySelector('#connectRoom2');
-const connectRoom3 = document.querySelector('#connectRoom3');
+let socketNamespace, group;
 
-// Events for room connection buttons
-connectRoom1.addEventListener('click', () => {
-	socket.emit('joinRoom', 'room1');
-});
+const chat = document.querySelector('#chat');
+const namespace = document.querySelector('#namespace');
 
-connectRoom2.addEventListener('click', () => {
-	socket.emit('joinRoom', 'room2');
-});
+if (teachers.includes(user)) {
+	socketNamespace = io('/teachers');
+	group = 'teachers';
+} else {
+	socketNamespace = io('/students');
+	group = 'students';
+}
 
-connectRoom3.addEventListener('click', () => {
-	socket.emit('joinRoom', 'room3');
-});
-
-// Event for send messages
-const sendMessage = document.querySelector('#sendMessage');
-
-sendMessage.addEventListener('click', () => {
-	const messageInput = prompt('Type your message:');
-	socket.emit('message', messageInput);
-});
-
-// Event for receiving messages
-socket.on('send message', (data) => {
-	const { room } = data;
-	const { message } = data;
-	const li = document.createElement('li');
-	li.textContent = message;
-
-	document.querySelector(`#${room}`).append(li);
+socketNamespace.on('connect', () => {
+	namespace.textContent = group;
 });
