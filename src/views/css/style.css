@@ -1,4 +1,10 @@
-#circle {
+.room {
+	display: block;
+	border: 2px solid #000;
+	margin-bottom: 20px;
+}
+
+/* #circle {
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -16,4 +22,4 @@
 	-moz-transform: translateX(-50%) translateY(-50%);
 	-ms-transform: translateX(-50%) translateY(-50%);
 	-o-transform: translateX(-50%) translateY(-50%);
-}
+} */
