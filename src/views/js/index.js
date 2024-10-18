@@ -17,3 +17,20 @@ if (teachers.includes(user)) {
 socketNamespace.on('connect', () => {
 	namespace.textContent = group;
 });
+
+// Send messages logic
+const sendMessage = document.querySelector('#sendMessage');
+sendMessage.addEventListener('click', () => {
+	const message = prompt('Type your message:');
+	socketNamespace.emit('sendMessage', {
+		message,
+		user,
+	});
+});
+
+socketNamespace.on('message', (messageData) => {
+	const { user, message } = messageData;
+	const li = document.createElement('li');
+	li.textContent = `${user}: ${message}`;
+	chat.append(li);
+});

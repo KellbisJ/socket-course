@@ -18,9 +18,16 @@ const students = io.of('students');
 
 teachers.on('connection', (socket) => {
 	console.log(`${socket.id} se ha conectado a la sala de teachers`);
+	socket.on('sendMessage', (data) => {
+		teachers.emit('message', data);
+	});
 });
 students.on('connection', (socket) => {
 	console.log(`${socket.id} se ha conectado a la sala de students`);
+
+	socket.on('sendMessage', (data) => {
+		students.emit('message', data);
+	});
 });
 
 server.listen(3000, () => {
