@@ -1,36 +1,16 @@
-const user = prompt('Type your user');
-const teachers = ['RetaxMaster', 'JuanDC', 'GNDX'];
+const socket = io();
+const send = document.querySelector('#send');
+const disconnect = document.querySelector('#disconnect');
+const reconnect = document.querySelector('#connect');
 
-let socketNamespace, group;
-
-const chat = document.querySelector('#chat');
-const namespace = document.querySelector('#namespace');
-
-if (teachers.includes(user)) {
-	socketNamespace = io('/teachers');
-	group = 'teachers';
-} else {
-	socketNamespace = io('/students');
-	group = 'students';
-}
-
-socketNamespace.on('connect', () => {
-	namespace.textContent = group;
+send.addEventListener('click', () => {
+	socket.connected ? socket.emit('is connected', '!Esta conectado!!') : null;
 });
 
-// Send messages logic
-const sendMessage = document.querySelector('#sendMessage');
-sendMessage.addEventListener('click', () => {
-	const message = prompt('Type your message:');
-	socketNamespace.emit('sendMessage', {
-		message,
-		user,
-	});
+disconnect.addEventListener('click', () => {
+	socket.disconnect();
 });
 
-socketNamespace.on('message', (messageData) => {
-	const { user, message } = messageData;
-	const li = document.createElement('li');
-	li.textContent = `${user}: ${message}`;
-	chat.append(li);
+reconnect.addEventListener('click', () => {
+	socket.connect();
 });
