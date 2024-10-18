@@ -14,8 +14,9 @@ const moveCircle = (e) => {
 	};
 
 	drawCircle(position);
+	console.log('Event sended to server');
 
-	socket.emit('moveCircle', position);
+	socket.volatile.emit('moveCircle', position);
 };
 
 document.addEventListener('mousedown', (e) => {
