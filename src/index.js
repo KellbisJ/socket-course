@@ -13,10 +13,21 @@ app.get('/', (req, res) => {
 	res.sendFile(__dirname + '/views/index.html');
 });
 
+// Middleware to check if the user is authorized
+io.use((socket, next) => {
+	const token = socket.handshake.auth.token;
+	const error = new Error('Not authorized');
+
+	token === 'your-secret-token'
+		? next()
+		: ((error.data = {
+				details: 'unauthorized',
+		  }),
+		  next(error));
+});
+
 io.on('connection', (socket) => {
-	socket.on('is connected', (msg) => {
-		console.log(msg);
-	});
+	console.log(socket.id);
 });
 
 server.listen(3000, () => {
