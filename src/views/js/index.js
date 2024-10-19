@@ -1,4 +1,4 @@
-const socket = io();
+const socket = io('/custom-namespace');
 
 const circle = document.querySelector('#circle');
 
