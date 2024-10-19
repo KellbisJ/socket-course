@@ -1,3 +1,6 @@
+// process.env.DEBUG = '*';
+process.env.DEBUG = 'engine, socket.io:socket, socket.io:client';
+
 const express = require('express');
 const path = require('path');
 const { createServer } = require('http');
@@ -13,21 +16,10 @@ app.get('/', (req, res) => {
 	res.sendFile(__dirname + '/views/index.html');
 });
 
-// Middleware to check if the user is authorized
-io.use((socket, next) => {
-	const token = socket.handshake.auth.token;
-	const error = new Error('Not authorized');
-
-	token === 'your-secret-token'
-		? next()
-		: ((error.data = {
-				details: 'unauthorized',
-		  }),
-		  next(error));
-});
-
-io.on('connection', (socket) => {
-	console.log(socket.id);
+io.of('custom-namespace').on('connection', (socket) => {
+	socket.on('moveCircle', (position) => {
+		socket.broadcast.emit('updateCircle', position);
+	});
 });
 
 server.listen(3000, () => {
