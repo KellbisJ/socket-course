@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "node --watch src/index.js"
   },
   "keywords": [],
@@ -12,10 +12,12 @@
   "description": "Curso de Socket.io",
   "dependencies": {
     "express": "^4.21.1",
-    "socket.io": "^4.8.0"
+    "socket.io": "^4.8.0",
+    "socket.io-client": "^4.8.0"
   },
   "devDependencies": {
     "bufferutil": "^4.0.8",
+    "jest": "^29.7.0",
     "utf-8-validate": "^6.0.4"
   }
 }
